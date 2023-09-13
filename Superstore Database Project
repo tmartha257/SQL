@@ -25,3 +25,22 @@ VALUES
     (13, 'Slow Cooker', 'Appliances', 49.95, 30, 4.7),
     (14, 'Cutlery Set', 'Kitchen Supplies', 34.50, 40, 4.4),
     (15, 'Cozy Throw Blanket', 'Furnishings', 24.99, 100, 4.2);
+
+#Here I wrote an SQL query that uses the SELECT statement to organize the prices of the store in descending order.
+SELECT price
+FROM superstore
+ORDER BY price desc;
+
+#Here I wrote an SQL query that gave me an statistic of the average price of an item from the superstore database.
+SELECT AVG (price)
+FROM superstore;
+
+#I created an SQL query that gave me the sum of the price of all the items in the 'Kitchen Supplies' category.
+SELECT SUM (price) category
+FROM superstore
+WHERE category='Kitchen Supplies'
+GROUP BY category;
+
+#I wanted to know the lowest average rating at the superstore so I wrote an SQL query that gave me the answer.
+SELECT MIN(average_rating)
+FROM superstore;
