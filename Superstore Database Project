@@ -1,3 +1,4 @@
+#I used the data from the superstore table for my project.
 CREATE TABLE superstore (
     item_id INTEGER PRIMARY KEY,
     item_name TEXT,
