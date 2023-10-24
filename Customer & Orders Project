@@ -1,0 +1,61 @@
+#In this project I utilized a database with multiple tables to query statistics about customer and order information.
+
+#I wrote this query to find out how many orders where placed in the month of January:
+SELECT COUNT(orderID)
+FROM BIT_DB.JanSales
+WHERE length(orderID)=6
+AND orderID <> 'Order ID';
+
+#This query shows how many orders were placed for an iPhone:
+SELECT COUNT(orderID)
+FROM BIT_DB.JanSales
+WHERE Product='iPhone'
+AND length(orderID)=6
+AND orderID <> 'Order ID';
+
+#The query below shows all of the customer account numbers for all of the orders
+placed in the month of February:
+SELECT distinct acctnum
+FROM BIT_DB.customers cust
+INNER JOIN BIT_DB.FebSales Feb
+ON cust.order_id=Feb.orderid
+WHERE length(orderid)=6
+AND orderid <> 'Order ID';
+
+#I created the query below which returns the data of the cheapest product
+in the month of January while showing the price of that item:
+SELECT distinct product, price
+FROM BIT_DB.JanSales
+WHERE price in (SELECT min(price) FROM BIT_DB.JanSales);
+
+#This query calculated the total revenue for each product in the month of January:
+SELECT SUM(quantity)*price as Revenue
+,product
+FROM BIT_DB.JanSales
+GROUP BY product;
+
+#This query locates the product, the quantity of that item sold and the total
+revenue that product sent to the address: 548 Lincoln St, Seattle, WA 98101:
+SELECT
+SUM(quantity)
+,product
+,SUM(quantity)*price as Revenue
+FROM BIT_DB.FebSales
+WHERE location='548 Lincoln St, Seattle, WA 98101'
+GROUP BY product;
+
+This query shows the amount of customers that ordered more than 2 products in the 
+month of February and the average amount they spent:
+SELECT
+count (distinct cust.acctnum)
+,avg(quantity)*price
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers Cust
+ON Feb.orderid=cust.order_id
+WHERE Feb.Quantity>2
+AND length(orderid)=6
+AND orderid <> 'Order ID';
+
+
+
+
