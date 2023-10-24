@@ -44,7 +44,7 @@ FROM BIT_DB.FebSales
 WHERE location='548 Lincoln St, Seattle, WA 98101'
 GROUP BY product;
 
-This query shows the amount of customers that ordered more than 2 products in the 
+#This query shows the amount of customers that ordered more than 2 products in the 
 month of February and the average amount they spent:
 SELECT
 count (distinct cust.acctnum)
@@ -56,6 +56,11 @@ WHERE Feb.Quantity>2
 AND length(orderid)=6
 AND orderid <> 'Order ID';
 
+#This query returns a list of all the products sold in Los Angeles in February, and include how many of each were sold:
+SELECT Product, SUM(quantity)
+FROM BIT_DB.FebSales
+WHERE location like '%Los Angeles%'
+GROUP BY Product;
 
 
 
