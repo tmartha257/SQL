@@ -1,0 +1,73 @@
+#In this project I utilized a database, "chinook", which contains 11 different tables, including information on albums, employees, customers, etc.
+#I came up with questions I had about the database and used queries below that would return information I needed.
+
+#This query shows the albums that are by the band "The Smashing Pumpkins":
+SELECT Name, Title
+FROM chinook.artists artists
+JOIN chinook.albums albums
+ON artists.ArtistId=albums.ArtistId
+WHERE Name='Smashing Pumpkins';
+
+#I wrote this query that shows all tracks that belong to the 'Alternative & Punk' genre:
+SELECT tracks.Name as track, genres.Name as genre
+FROM chinook.tracks tracks
+JOIN chinook.genres genres
+ON tracks.GenreId=genres.GenreId
+WHERE genres.Name='Alternative & Punk';
+
+#I created this query shows which employee assisted the customer, Martha Silk, with her purchase:
+SELECT customers.FirstName, customers.LastName, employees.LastName, employees.FirstName
+FROM chinook.customers customers
+JOIN chinook.employees employees
+ON employees.EmployeeId=customers.SupportRepId
+WHERE customers.FirstName='Martha'
+AND customers.LastName= 'Silk';
+
+#This query shows the total invoices made in 2012:
+SELECT COUNT(*) as invoice_totals
+FROM chinook.Invoices
+WHERE InvoiceDate BETWEEN '2012-01-01' AND '2012-12-31';
+
+#This query shows which sales agent made the most dollars in 2012:
+SELECT emp.FirstName, emp.LastName,
+ROUND(SUM(Inv.Total), 2) as 'Total Sales' 
+FROM chinook.Employees emp
+JOIN chinook.Customers cust 
+ON cust.SupportRepId = emp.EmployeeId
+JOIN chinook.Invoices Inv 
+ON Inv.CustomerId = cust.CustomerId
+WHERE emp.Title = 'Sales Support Agent' 
+AND Inv.InvoiceDate LIKE '2012%' 
+GROUP BY emp.FirstName
+ORDER BY (round(sum(Inv.Total), 2))  DESC LIMIT 1;
+
+#I wrote this query that returns data on all the tracks, album names, and genres in the chinook database:
+SELECT genres.Name as genre,
+tracks.Name as track,
+albums.Title as album
+FROM chinook.genres genres
+JOIN chinook.tracks tracks
+ON genres.GenreId=tracks.GenreId
+JOIN chinook.albums albums
+ON albums.AlbumId=tracks.AlbumId;
+
+#I created this query that returns data from the "customers" table, showing me the different countries that orders were placed from in alphabetical order:
+SELECT distinct Country
+FROM chinook.customers
+ORDER BY Country asc;
+
+#This query returns data of the first and last name of customers who placed orders from the USA:
+SELECT FirstName, LastName
+FROM chinook.customers
+WHERE Country='USA';
+
+#This query shows which employee has been with the company the longest and their hire date:
+SELECT FirstName, LastName,HireDate
+FROM chinook.employees
+ORDER BY HireDate asc
+LIMIT 1;
+
+#This query shows employees who have the title of "IT Staff":
+SELECT FirstName, LastName, Title
+FROM chinook.employees
+WHERE Title='IT Staff';
